@@ -1,0 +1,68 @@
+1.
+Создание файла:
+ а)  ' touch file1.txt '
+или
+ б)  ' echo > file1.txt '
+или чтобы сразу наполнить
+ в)  ' cat > file1.txt '
+
+Cкопировать файл file1 в file2:
+' cp file1.txt file2.txt '
+
+Создать символьную ссылку:
+' ln -s file1.txt file3.txt '
+
+Создание жесткой ссылки:
+' ln file1.txt file4.txt '
+
+Посмотреть айноды:
+' ls -lh '
+
+Удалить файл:
+' rm file1.txt '
+
+file2.txt - открывается, содержание не изменилось;
+file3.txt - не открывается, No such file or directory;
+file4.txt - открывается, содержание не изменилось;
+
+2.
+Переименовать фаилы:
+' mv file2.txt nextFile2.txt '
+' mv file3.txt nextFile3.txt '
+' mv file4.txt nextFile4.txt '
+
+Новая символическая  ссылка:
+' ln -s nextFile2.txt nextLinkFile2.txt '
+
+Переместить ссылки в другую дерикторию:
+' mv nextFile3.txt cd ../Desktop '
+' mv nextFile4.txt cd ../Desktop '
+' mv nextLinkFile2.txt cd ../Desktop '
+
+nextFile3.txt - не открывается, No such file or directory;
+nextFile4.txt - открывается, содержание не изменилось;
+nextLinkFile2.txt - не открывается, No such file or directory;
+
+3.
+Создать 2 фаила:
+' touch file{1..2} '
+
+Первому файлу присвоить права на чтение, запись для владельца и группы; на чтение для всех:
+' chmod u=rw,g=rw,o=r-- file1 '
+' chmod -R 774 file1 '
+
+Второму файлу присвоить права на чтение, запись только для владельца:
+' chmod u=rw,g=x--,o=x-- '
+' chmod -R 711 file2 '
+
+4.
+Создание юзера:
+' useradd -d /home/userTest -m -s /bin/bash userTest ' создание юзера userTest с домашней дерикторией в home/userTest и с использованием bash
+Задать пароль от рута:
+' passwd userTest '
+Добавить sudo:
+' usermod -aG sodu userTest '
+
+(можно добавлять сразу в группы через -G при создании ) 
+
+' useradd userTest -p $(openssl passwd gpDJg72Qv) -G sudo -s /bin/bash -d /home/userTest -m'
