@@ -1,0 +1,51 @@
+Открытие порта:
+
+1) Разрешаем обмен данными между любыми портами, отправку и прием данных из интерфейса lo
+ sudo iptables -A INPUT -i lo -j ACCEPT
+ sudo iptables -A OUTPUT -o lo -j ACCEPT
+2) разрешить все пакеты с состоянием ESTABLISHED и RELATED
+ sudo iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+3) открыть порт 
+ sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+ sudo iptables -A INPUT -p tcp --dport 433 -j ACCEPT
+ sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT - для ssh
+4) sudo iptables -P INPUT DROP
+
+Проверка:
+1) sudo iptables -nvL
+  Должны быть строки с открытыми портами
+
+Конфиг в другом файле.
+
+
+Создание сертификата:
+1) sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
+
+Country Name: RU
+State: Moscow Region
+Locality: Moscow
+Organization: Test Name
+Organization Unit Name: Host
+Common Name: localhost
+Email Address: carpe_vladmir@mail.ru
+
+2) sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+
+
+3) Добавить в конфиг основного сервера (кофиг в другом файле)
+ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+
+проверка через https - так как с шифрованием
+
+https://localhost/
+
+Firefoxc выдает предупреждение о небезопасном сайте
+
+Симитричное шифрование позволяет шифровать и расшифрововать данные с обоих сторон и делать это быстрее 
+
+
+
+
+
+
